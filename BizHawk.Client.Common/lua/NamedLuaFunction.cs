@@ -29,9 +29,16 @@ namespace BizHawk.Client.Common
 				}
 			};
 
-			MemCallback = delegate
+			MemCallback = delegate(uint addr, uint value, uint flags)
 			{
-				Callback();
+				try
+				{
+					_function.Call(addr, value, flags);
+				}
+				catch (Exception ex)
+				{
+					logCallback($"error running function attached by the event {Event}\nError message: {ex.Message}");
+				}
 			};
 		}
 
